@@ -12,8 +12,12 @@
   register: splunk_running
   ignore_errors: True
 
+- name: debug
+  debug:
+    msg: "{{ splunk_binary_url }}"
+
 - name: Install Splunk server binary
-  yum: name={{ splunk_binary_url }} state=installed
+  yum: name="{{ splunk_binary_url }}" state=installed
 
 - name: Copy scripts to run
   copy: src="{{ item }}" dest="/home/ec2-user/{{ item }}" mode=755
