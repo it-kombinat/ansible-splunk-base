@@ -1,5 +1,4 @@
 ---
----
 # This role contains plays to install and configure the base splunk instance
 
 - set_fact: new_password={{ new_pass }}
