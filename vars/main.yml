@@ -1,6 +1,6 @@
 ---
 # vars file for ansible-splunk-base
----
+#
 # Variables here are applicable to all splunk installs
 
 # URL the the Splunk server rpm file, e.g. https://s3.amazonaws.com/yourbucket/splunk-6.1.3-220630-linux-2.6-x86_64.rpm

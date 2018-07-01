@@ -1,44 +1,19 @@
 ---
 # This role contains plays to install and configure the base splunk instance
 
-- set_fact: new_password={{ new_pass }}
-- set_fact: current_password={{ current_pass }}
-- set_fact: ldap_password={{ ldap_pass }}
-
 - name: Update hostname in /etc/sysconfig/network
   shell: sed -i "/HOSTNAME=localhost.localdomain/ c\\HOSTNAME=`curl http://169.254.169.254/latest/meta-data/instance-id`.{{ splunk_host_domain }}" /etc/sysconfig/network
 
 - name: Dynamically change hostname
   shell: "hostname `curl http://169.254.169.254/latest/meta-data/instance-id`.{{ splunk_host_domain }}"
 
-- name: Install the GPG key for Splunk
-  rpm_key: state=present key={{ splunk_pgp_public_key }}
-
-- name: Check if Splunk is already installed
-  yum: name=splunk state=present
-  register: splunk_installed_result
-  ignore_errors: True
-
 - name: Check if Splunk is running
   shell: /opt/splunk/bin/splunk status
   register: splunk_running
   ignore_errors: True
 
-- name: Download Splunk server binary
-  get_url: dest=/home/ec2-user  url={{ splunk_binary_url }} sha256sum={{ splunk_binary_sha256sum }}
-  when: splunk_installed_result|failed
-
-- name: Check that Splunk installer binary exists
-  stat: path=/home/ec2-user/{{ splunk_binary_file }}
-  register: splunk_installer_present
-
 - name: Install Splunk server binary
-  yum: pkg=/home/ec2-user/{{ splunk_binary_file }} state=installed
-  when: splunk_installer_present.stat.exists == true
-
-- name: Clean up RPM file
-  shell: rm -rf /home/ec2-user/{{ splunk_binary_file }}
-  when: splunk_installer_present.stat.exists == true
+  yum: name={{ splunk_binary_url }} state=installed
 
 - name: Copy scripts to run
   copy: src="{{ item }}" dest="/home/ec2-user/{{ item }}" mode=755
@@ -54,7 +29,7 @@
   command: rm -rf /home/ec2-user/config_splunk_inputs.sh
 
 - name: Start Splunk for the first time
-  command: /bin/su --shell=/bin/bash --session-command="/opt/splunk/bin/splunk start --accept-license" splunk
+  command: /bin/su --shell=/bin/bash --session-command="/opt/splunk/bin/splunk start --answer-yes --no-prompt --accept-license" splunk
   when: splunk_running|failed
 
 - name: Enable Splunk to auto-start on boot
