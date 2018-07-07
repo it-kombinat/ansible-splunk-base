@@ -11,4 +11,7 @@ echo [tcp://:514] >> $SPLUNK_HOME/etc/system/local/inputs.conf
 echo connection_host = dns >> $SPLUNK_HOME/etc/system/local/inputs.conf
 echo sourcetype = syslog >> $SPLUNK_HOME/etc/system/local/inputs.conf
 echo source = tcp:514 >> $SPLUNK_HOME/etc/system/local/inputs.conf
+echo [monitor://var/log/*] >> $SPLUNK_HOME/etc/system/local/inputs.conf
+echo connection_host = dns >> $SPLUNK_HOME/etc/system/local/inputs.conf
+echo sourcetype = syslog >> $SPLUNK_HOME/etc/system/local/inputs.conf
 chown splunk.splunk $SPLUNK_HOME/etc/system/local/inputs.conf
