@@ -1,31 +1,29 @@
-Role Name
+ansible-splunk-base (all-in-one Splunk) for DEMO
 =========
 
-A brief description of the role goes here.
+Install and configure Splunk
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+RPM File stored in S3 Bucket
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+vars:
+  splunk_binary_url: https://s3.eu-central-1.amazonaws.com/mysplunk/splunk-7.1.1-8f0ead9ec3db-linux-2.6-x86_64.rpm
+  splunk_binary_file: splunk-7.1.1-8f0ead9ec3db-linux-2.6-x86_64.rpm
+  splunk_binary_sha256sum: 304f01f07fb7a9199337aac97bbc918c09f0829b5ffe8386d2b7758be3a6aa27
+  splunk_pgp_public_key: http://docs.splunk.com/images/6/6b/SplunkPGPKey.pub
+  splunk_host_domain:
+  splunk_license_master:
+  company: it-kombinat
+  splunk_admin_passwd: demo0815  # Password must contain at least 8 total printable ASCII character(s)
+roles:
+  - ansible-splunk-base
+```
 
 License
 -------
@@ -35,4 +33,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+IT-KOMBINAT.ORG
